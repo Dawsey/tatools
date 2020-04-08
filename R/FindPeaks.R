@@ -3,8 +3,8 @@
 #' This function plots the peak values above the entered threshold argument.
 #'
 #' @param data a dataframe containing the measurements and optional index variables
-#' @param index column reference entered as a character variable to the indices. Indices are plotted on the x axis. Observations can be either a date or numeric format.
-#' @param values column reference entered as a character variable to the values against which the peak values are calculated. Observations ust be numeric format
+#' @param index column reference entered as an object variable to the indices. Indices are plotted on the x axis. Observations can be either a date or numeric format.
+#' @param values column reference entered as an object variable to the values against which the peak values are calculated. Observations ust be numeric format
 #' @param threshold a numeric value above which to calculate peaks.
 #' @param ... other arguments to pass to the plot function.
 #' @import dplyr
@@ -13,29 +13,33 @@
 #' @return A plot of the peaks at the specified threshold and Peak value data that can be assigned to an object
 #' @examples
 #' data(waves)
-#' find.peaks(data = waves,
+#' find_peaks(data = waves,
 #'            index = "date_time",
 #'            values = "height_meters",
 #'            threshold = 1.3)
 #'
 #' # To show data without a date/time index
-#' find.peaks(data = waves,
+#' find_peaks(data = waves,
 #'            values = "height_meters",
 #'            threshold = 1.3)
 #' @export
 
-find.peaks <- function(data, index = NULL, values, threshold = 0, ...) {
+find_peaks <- function(data, index = NULL, values, threshold = 0, ...) {
 
-   if (!is.null(index)) {
+    values <- enquo(values)
+
+   if (!missing(index)) {
+
+     index<- enquo(index)
 
      x <- {{data}} %>%
-       select(index, {{values}})
+       select(!!index, !!values)
 
    } else {
 
      x <- {{data}} %>%
        mutate(index = as.numeric(row.names({{data}}))) %>%
-       select(index, {{values}})
+       select(index, !!values)
 
    }
 
