@@ -2,7 +2,7 @@
 % Please edit documentation in R/SmootheCDF.R
 \name{smooth_ecd}
 \alias{smooth_ecd}
-\title{Show timeseries peak values above a threshold}
+\title{Create a smoothed Cumulative Distribution Function plot}
 \usage{
 smooth_ecd(
   data,
@@ -33,7 +33,7 @@ smooth_ecd(
 A list object is returned containing a grob object [["plot"]] for plotting a dataframe [["data"]] for further analysis
 }
 \description{
-This function plots the peak values above the entered threshold argument.
+This function produces a smoothed eCDF plot.
 }
 \examples{
 data(waves)
@@ -46,6 +46,8 @@ plt_a <- smooth_ecd(data = waves,
  plot(plt_a[["plot"]])
 
  ## Add a grouping variable
+ library(dplyr)
+
  plt_b <- smooth_ecd(data = waves \%>\%
  mutate(hour = format(date_time, "\%H")),
  y = height_meters,
@@ -56,6 +58,6 @@ plt_a <- smooth_ecd(data = waves,
 
  # Access the objects
  plot(plt_b[["plot"]])
- quantile(plt_b[["data"]])
+ dat <- plt_b[["data"]]
 
 }

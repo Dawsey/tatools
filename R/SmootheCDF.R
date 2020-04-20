@@ -1,6 +1,6 @@
-#' Show timeseries peak values above a threshold
+#' Create a smoothed Cumulative Distribution Function plot
 #'
-#' This function plots the peak values above the entered threshold argument.
+#' This function produces a smoothed eCDF plot.
 #'
 #' @param data a dataframe containing the data
 #' @param y column reference to determine exceedance entered as an object (without quotes).
@@ -12,7 +12,7 @@
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom graphics abline plot points text
-#' @importFrom stats quantile
+#' @importFrom stats quantile density
 #' @return A list object is returned containing a grob object [["plot"]] for plotting a dataframe [["data"]] for further analysis
 #' @examples
 #' data(waves)
@@ -25,6 +25,8 @@
 #'  plot(plt_a[["plot"]])
 #'
 #'  ## Add a grouping variable
+#'  library(dplyr)
+#'
 #'  plt_b <- smooth_ecd(data = waves %>%
 #'  mutate(hour = format(date_time, "%H")),
 #'  y = height_meters,
@@ -35,7 +37,7 @@
 #'
 #'  # Access the objects
 #'  plot(plt_b[["plot"]])
-#'  quantile(plt_b[["data"]])
+#'  dat <- plt_b[["data"]]
 #'
 #' @export
 
